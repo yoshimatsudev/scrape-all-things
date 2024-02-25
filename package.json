@@ -1,0 +1,18 @@
+{
+  "name": "scrape-all-things",
+  "version": "1.0.0",
+  "description": "",
+  "main": "puppeteer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "puppeteer": "node puppeteer.js > ./results-text/puppetter.log",
+    "playwright": "node playwright.js > ./results-text/playwright.log"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "playwright": "^1.41.2",
+    "puppeteer": "^22.2.0"
+  }
+}

@@ -1,0 +1,702 @@
+Curated List of Bot / Headless Chrome Detection Tests
+
+🚀 v0.6.2 (30th September 2023) 🚀 [Changelog]
+
+Use with Puppeteer
+Use with Playwright
+Use with Google Chrome
+Use with Advanced Bot
+Use with Selenium
+
+This page attempts to detect if you are a Bot or Not. The tests are constantly kept up to date, please check the changelog here.
+
+Table of Contents
+Behavioral Classification
+More Sources and Links
+Bot Challenge
+New Detection Tests
+Old Detection Tests
+IP Address API
+Proxy/VPN Detection Tests
+Http Headers
+TCP/IP Fingerprint
+TLS Fingerprint
+Browser Fingerprint
+Canvas Fingerprint
+WebGL Fingerprint
+Web Worker
+Service Worker
+Browser Data
+Behavioral Bot Classification
+
+The test behavioralClassificationScore gives a rating between 0 (Bot) and 1 (Human) based on advanced behavioral heuristics. A score below 0.5 means that you are most likely a bot.
+
+The first score is computed after 1,5 seconds of browsing on this site. Then, the behavioral score is updated after 4 seconds, 7 seconds, 10 seconds and 15 seconds.
+
+Don't worry if you are browsing this page and you are given a score between 0.7 and 1.0, the behavioralClassificationScore consist of 30+ individual classificators and it is normal that there are false positives.
+
+In order to test your bot with a real world problem, your bot has to solve the challenge below.
+
+Your Behavioral Score: ...
+More Sources/Information
+Expand all Sources / Links
+Bot Challenge
+
+Your bot has to fill out the form below and submit it. Then you are prompted to confirm the pop-up dialoge. After confirmation, you will see a table with basket items and prices. Update the prices of this table and scrape the data as a final step.
+
+Completing all those steps provides enough behaviroal information in order to classify you as BotOrNot.
+
+Show Code to Solve The Bot Challenge
+Bot Challenge
+Username
+
+Email
+
+Number of Cookies
+One Cookie
+Two Cookies
+Three Cookies
+I want all the Cookies
+ I agree to the terms and conditions
+ I like Cats  I like big Cats
+
+Submit
+New Detection Tests [1] [2] [3] [4]
+{
+  "puppeteerEvaluationScript": "OK",
+  "webdriverPresent": "FAIL",
+  "connectionRTT": "OK",
+  "refMatch": "OK",
+  "overrideTest": "OK",
+  "overflowTest": "OK",
+  "puppeteerExtraStealthUsed": "OK",
+  "inconsistentWebWorkerNavigatorPropery": "OK",
+  "inconsistentUserAgent": "OK",
+  "inconsistentLanguages": "OK",
+  "inconsistentServiceWorkerNavigatorPropery": "OK"
+}
+Old Bot Detection Tests (Intoli.com tests + additions, Fingerprint Scanner tests)
+{
+  "intoli": {
+    "userAgent": "OK",
+    "webDriver": "FAIL",
+    "webDriverAdvanced": "OK",
+    "pluginsLength": "OK",
+    "pluginArray": "OK",
+    "languages": "OK"
+  },
+  "fpscanner": {
+    "PHANTOM_UA": "OK",
+    "PHANTOM_PROPERTIES": "OK",
+    "PHANTOM_ETSL": "OK",
+    "PHANTOM_LANGUAGE": "OK",
+    "PHANTOM_WEBSOCKET": "OK",
+    "MQ_SCREEN": "OK",
+    "PHANTOM_OVERFLOW": "OK",
+    "PHANTOM_WINDOW_HEIGHT": "OK",
+    "HEADCHR_UA": "OK",
+    "WEBDRIVER": "FAIL",
+    "HEADCHR_CHROME_OBJ": "OK",
+    "HEADCHR_PERMISSIONS": "OK",
+    "HEADCHR_PLUGINS": "OK",
+    "HEADCHR_IFRAME": "OK",
+    "CHR_DEBUG_TOOLS": "OK",
+    "SELENIUM_DRIVER": "OK",
+    "CHR_BATTERY": "OK",
+    "CHR_MEMORY": "OK",
+    "TRANSPARENT_PIXEL": "OK",
+    "SEQUENTUM": "OK",
+    "VIDEO_CODECS": "OK"
+  }
+}
+IP Address API [1]
+
+I maintain a public IP API that can also be used to check whether an IP address belongs to a data center IP address range such as Azure, AWS, Digitalocean, Google Cloud Platform and many other cloud providers. Please read the full blog article for more a thorough introduction.
+
+{
+  "ip": "191.254.207.128",
+  "rir": "LACNIC",
+  "is_bogon": false,
+  "is_mobile": false,
+  "is_crawler": false,
+  "is_datacenter": false,
+  "is_tor": false,
+  "is_proxy": false,
+  "is_vpn": false,
+  "is_abuser": false,
+  "company": {
+    "name": "TELEFNICA BRASIL S.A",
+    "abuser_score": "0.0005 (Very Low)",
+    "domain": "www.telefonica.com.br",
+    "type": "isp",
+    "network": "191.254.0.0/15"
+  },
+  "asn": {
+    "asn": 27699,
+    "abuser_score": "0.0004 (Very Low)",
+    "route": "191.254.0.0/16",
+    "descr": "TELEFONICA BRASIL S.A, BR",
+    "country": "br",
+    "active": true,
+    "org": "TELEFNICA BRASIL S.A",
+    "domain": "www.telefonica.com.br",
+    "abuse": "dominios-vivo.br@telefonica.com",
+    "type": "isp",
+    "created": "20030825",
+    "updated": "20190730",
+    "rir": "LACNIC",
+    "whois": "https://api.ipapi.is/?whois=AS27699"
+  },
+  "location": {
+    "continent": "SA",
+    "country": "Brazil",
+    "country_code": "BR",
+    "state": "São Paulo",
+    "city": "São Paulo",
+    "latitude": -23.547,
+    "longitude": -46.636,
+    "zip": "06000-000",
+    "timezone": "America/Sao_Paulo",
+    "local_time": "2024-02-25T15:51:45-03:00",
+    "local_time_unix": 1708887105,
+    "is_dst": false
+  },
+  "elapsed_ms": 0.39
+}
+Proxy/VPN Detection Tests
+
+Visit the Proxy/VPN detection Test Page
+
+The Proxy/VPN detection test can be found on a dedicated page because the large test battery would otherwise clog this detection page. Those techniques are:
+
+Latency Test: Compare ping from browser to server with ping from web server to external IP address
+WebRTC Test: Check if WebRTC leaks the real IP address
+TCP/IP Fingerprint Test: Compare the OS induced from the TCP/IP fingerprint with the OS advertised by the User-Agent
+Open Ports Test: Check if the host connecting to the web server has open ports
+Datacenter IP Test: Check if the IP address belongs to a datacenter
+DNS Leak Test: Check if the DNS server of the client leaks any data
+IP Timezone vs Browser Timezone Test: Compare the IP geolocation timezone with the browser timezone
+HTTP Proxy Headers Test: Look for suspicious proxy headers in the HTTP headers
+And many other tests that are constantly being updated!
+HTTP Headers
+{
+  "host": "abs.incolumitas.com",
+  "x-real-ip": "191.254.207.128",
+  "connection": "close",
+  "sec-ch-ua": "\"Not(A:Brand\";v=\"24\", \"Chromium\";v=\"122\"",
+  "sec-ch-ua-mobile": "?0",
+  "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+  "sec-ch-ua-platform": "\"Linux\"",
+  "accept": "*/*",
+  "origin": "https://bot.incolumitas.com",
+  "sec-fetch-site": "same-site",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-dest": "empty",
+  "referer": "https://bot.incolumitas.com/",
+  "accept-encoding": "gzip, deflate, br",
+  "accept-language": "en-US,en;q=0.9"
+}
+zardaxt.py - Passive TCP/IP Fingerprint [1]
+
+Several fields such as TCP Options or TCP Window Size or IP Fragment Flag depend heavily on the OS type and version. Detecting operating systems by analyzing the first incoming SYN packet is surely no exact science, but it's better than nothing.
+
+The TCP/IP fingerprinting API allows you to get your TCP/IP fingerprint. It can be used for various purposes such as: Networking traffic analysis, Malware detection, bot detection, Proxy / VPN detection and so on.
+
+{
+  "avg_score_os_class": {
+    "Android": 10.15,
+    "Chromium OS": 12.02,
+    "Linux": 8.88,
+    "Mac OS": 3.08,
+    "Windows": 3.23,
+    "iOS": 2.94
+  },
+  "details": {
+    "client_ip": "191.254.207.128",
+    "highest_os_avg": 12.02,
+    "lookup_ip": "191.254.207.128",
+    "num_fingerprints": 19,
+    "os_highest_class": "Chromium OS",
+    "os_mismatch": false,
+    "perfect_score": 20.5
+  },
+  "fp": {
+    "cap_len": 74,
+    "dst_ip": "91.107.193.45",
+    "dst_port": 443,
+    "header_len": 74,
+    "ip_checksum": 31714,
+    "ip_df": 1,
+    "ip_hdr_length": 5,
+    "ip_id": 9922,
+    "ip_mf": 0,
+    "ip_nxt": null,
+    "ip_off": 16384,
+    "ip_plen": null,
+    "ip_protocol": 6,
+    "ip_rf": 0,
+    "ip_tos": 0,
+    "ip_total_length": 60,
+    "ip_ttl": 44,
+    "ip_version": 4,
+    "src_ip": "191.254.207.128",
+    "src_port": 59705,
+    "tcp_ack": 0,
+    "tcp_checksum": 3104,
+    "tcp_flags": 2,
+    "tcp_header_length": 20,
+    "tcp_mss": 1440,
+    "tcp_off": 10,
+    "tcp_options": "M1440,S,T,N,W7,",
+    "tcp_options_ordered": "MSTNW",
+    "tcp_seq": 2858993911,
+    "tcp_timestamp": 3046669489,
+    "tcp_timestamp_echo_reply": 0,
+    "tcp_urp": 0,
+    "tcp_window_scaling": 7,
+    "tcp_window_size": 65340,
+    "ts": [
+      1708887105,
+      307930
+    ]
+  }
+}
+TLS Fingerprint [1]
+
+The TLS fingerprinting API allows you to get your TLS fingerprint. It can be used for various purposes such as: Networking traffic analysis, Malware detection and Bot detection.
+
+fingerprintjs - Browser Fingerprint [1]
+116951a56a4f4fc585204f2a1de4fc54
+Canvas Fingerprint [1]
+1035924E
+WebGL Fingerprint [1]
+7d6f8162c7c6be70d191585fd163f34dbc404a8b4f6fcad4d2e660c7b4e4b694
+Web Worker Navigatory Property [1]
+{
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+  "appVersion": "5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+  "platform": "Linux x86_64",
+  "deviceMemory": 8,
+  "hardwareConcurrency": 16,
+  "language": "en-US",
+  "languages": [
+    "en-US",
+    "en"
+  ]
+}
+Service Worker Data [1]
+{
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+  "appVersion": "5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+  "platform": "Linux x86_64",
+  "deviceMemory": 8,
+  "hardwareConcurrency": 16,
+  "language": "en-US",
+  "languages": [
+    "en-US",
+    "en"
+  ]
+}
+Fp-collect info (Modified by Me)
+{
+  "byteLength": "unknown",
+  "appVersion": "5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+  "onLine": true,
+  "doNotTrack": null,
+  "hardwareConcurrency": 16,
+  "timezone": 180,
+  "timezone2": "America/Sao_Paulo",
+  "systemTime": "Sun Feb 25 2024 15:51:46 GMT-0300 (Brasilia Standard Time)",
+  "getTimezoneOffset": 180,
+  "toLocaleString": "2/25/2024, 3:51:46 PM",
+  "historyLength": 2,
+  "indexedDB": true,
+  "openDatabase": false,
+  "product": "Gecko",
+  "fmget": false,
+  "domAutomation": false,
+  "cookieEnabled": true,
+  "sendBeaconAvailable": true,
+  "appName": "Netscape",
+  "vendor": "Google Inc.",
+  "appCodeName": "Mozilla",
+  "userMediaAvailable": true,
+  "javaEnabled": false,
+  "batteryDetails": {
+    "charging": true,
+    "chargingTime": 0,
+    "dischargingTime": null,
+    "level": 1
+  },
+  "plugins": [
+    "PDF Viewer::Portable Document Format::internal-pdf-viewer::__application/pdf~pdf~Portable Document Format,text/pdf~pdf~Portable Document Format",
+    "Chrome PDF Viewer::Portable Document Format::internal-pdf-viewer::__application/pdf~pdf~Portable Document Format,text/pdf~pdf~Portable Document Format",
+    "Chromium PDF Viewer::Portable Document Format::internal-pdf-viewer::__application/pdf~pdf~Portable Document Format,text/pdf~pdf~Portable Document Format",
+    "Microsoft Edge PDF Viewer::Portable Document Format::internal-pdf-viewer::__application/pdf~pdf~Portable Document Format,text/pdf~pdf~Portable Document Format",
+    "WebKit built-in PDF::Portable Document Format::internal-pdf-viewer::__application/pdf~pdf~Portable Document Format,text/pdf~pdf~Portable Document Format"
+  ],
+  "mimeTypes": [
+    "Portable Document Format~~application/pdf~~pdf",
+    "Portable Document Format~~text/pdf~~pdf"
+  ],
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+  "platform": "Linux x86_64",
+  "language": "en-US",
+  "languages": [
+    "en-US",
+    "en"
+  ],
+  "screen": {
+    "wInnerHeight": 600,
+    "wOuterHeight": 1060,
+    "wOuterWidth": 945,
+    "wInnerWidth": 800,
+    "wScreenX": 16,
+    "wPageXOffset": 0,
+    "wPageYOffset": 0,
+    "cWidth": 785,
+    "cHeight": 5824,
+    "sWidth": 1920,
+    "sHeight": 1080,
+    "sAvailWidth": 1920,
+    "sAvailHeight": 1080,
+    "sColorDepth": 24,
+    "sPixelDepth": 24,
+    "wDevicePixelRatio": 1
+  },
+  "touchScreen": [
+    0,
+    false,
+    false
+  ],
+  "videoCard": [
+    "Google Inc. (Microsoft Corporation)",
+    "ANGLE (Microsoft Corporation, D3D12 (AMD Radeon RX 6600), OpenGL 4.2)"
+  ],
+  "multimediaDevices": {
+    "speakers": 1,
+    "micros": 1,
+    "webcams": 0
+  },
+  "productSub": "20030107",
+  "navigatorPrototype": [
+    "vendorSub~~~function get vendorSub() { [native code] }",
+    "productSub~~~function get productSub() { [native code] }",
+    "vendor~~~function get vendor() { [native code] }",
+    "maxTouchPoints~~~function get maxTouchPoints() { [native code] }",
+    "scheduling~~~function get scheduling() { [native code] }",
+    "userActivation~~~function get userActivation() { [native code] }",
+    "doNotTrack~~~function get doNotTrack() { [native code] }",
+    "geolocation~~~function get geolocation() { [native code] }",
+    "connection~~~function get connection() { [native code] }",
+    "plugins~~~function get plugins() { [native code] }",
+    "mimeTypes~~~function get mimeTypes() { [native code] }",
+    "pdfViewerEnabled~~~function get pdfViewerEnabled() { [native code] }",
+    "webkitTemporaryStorage~~~function get webkitTemporaryStorage() { [native code] }",
+    "webkitPersistentStorage~~~function get webkitPersistentStorage() { [native code] }",
+    "hardwareConcurrency~~~function get hardwareConcurrency() { [native code] }",
+    "cookieEnabled~~~function get cookieEnabled() { [native code] }",
+    "appCodeName~~~function get appCodeName() { [native code] }",
+    "appName~~~function get appName() { [native code] }",
+    "appVersion~~~function get appVersion() { [native code] }",
+    "platform~~~function get platform() { [native code] }",
+    "product~~~function get product() { [native code] }",
+    "userAgent~~~function get userAgent() { [native code] }",
+    "language~~~function get language() { [native code] }",
+    "languages~~~function get languages() { [native code] }",
+    "onLine~~~function get onLine() { [native code] }",
+    "webdriver~~~function get webdriver() { [native code] }",
+    "getGamepads~~~function getGamepads() { [native code] }",
+    "javaEnabled~~~function javaEnabled() { [native code] }",
+    "sendBeacon~~~function sendBeacon() { [native code] }",
+    "vibrate~~~function vibrate() { [native code] }",
+    "constructor~~~function Navigator() { [native code] }",
+    "storageBuckets~~~function get storageBuckets() { [native code] }",
+    "clipboard~~~function get clipboard() { [native code] }",
+    "credentials~~~function get credentials() { [native code] }",
+    "keyboard~~~function get keyboard() { [native code] }",
+    "managed~~~function get managed() { [native code] }",
+    "mediaDevices~~~function get mediaDevices() { [native code] }",
+    "storage~~~function get storage() { [native code] }",
+    "serviceWorker~~~function get serviceWorker() { [native code] }",
+    "virtualKeyboard~~~function get virtualKeyboard() { [native code] }",
+    "wakeLock~~~function get wakeLock() { [native code] }",
+    "deviceMemory~~~function get deviceMemory() { [native code] }",
+    "userAgentData~~~function get userAgentData() { [native code] }",
+    "login~~~function get login() { [native code] }",
+    "ink~~~function get ink() { [native code] }",
+    "mediaCapabilities~~~function get mediaCapabilities() { [native code] }",
+    "hid~~~function get hid() { [native code] }",
+    "locks~~~function get locks() { [native code] }",
+    "gpu~~~function get gpu() { [native code] }",
+    "mediaSession~~~function get mediaSession() { [native code] }",
+    "permissions~~~function get permissions() { [native code] }",
+    "presentation~~~function get presentation() { [native code] }",
+    "usb~~~function get usb() { [native code] }",
+    "xr~~~function get xr() { [native code] }",
+    "serial~~~function get serial() { [native code] }",
+    "windowControlsOverlay~~~function get windowControlsOverlay() { [native code] }",
+    "clearAppBadge~~~function clearAppBadge() { [native code] }",
+    "getBattery~~~function getBattery() { [native code] }",
+    "getUserMedia~~~function getUserMedia() { [native code] }",
+    "requestMIDIAccess~~~function requestMIDIAccess() { [native code] }",
+    "requestMediaKeySystemAccess~~~function requestMediaKeySystemAccess() { [native code] }",
+    "setAppBadge~~~function setAppBadge() { [native code] }",
+    "webkitGetUserMedia~~~function webkitGetUserMedia() { [native code] }",
+    "getInstalledRelatedApps~~~function getInstalledRelatedApps() { [native code] }",
+    "registerProtocolHandler~~~function registerProtocolHandler() { [native code] }",
+    "unregisterProtocolHandler~~~function unregisterProtocolHandler() { [native code] }",
+    "constructor~~~function Navigator() { [native code] }",
+    "__defineGetter__~~~",
+    "__defineSetter__~~~",
+    "hasOwnProperty~~~",
+    "__lookupGetter__~~~",
+    "__lookupSetter__~~~",
+    "isPrototypeOf~~~",
+    "propertyIsEnumerable~~~",
+    "toString~~~",
+    "valueOf~~~",
+    "__proto__~~~",
+    "toLocaleString~~~"
+  ],
+  "navigatorProperties": [
+    "vendorSub",
+    "productSub",
+    "vendor",
+    "maxTouchPoints",
+    "scheduling",
+    "userActivation",
+    "doNotTrack",
+    "geolocation",
+    "connection",
+    "plugins",
+    "mimeTypes",
+    "pdfViewerEnabled",
+    "webkitTemporaryStorage",
+    "webkitPersistentStorage",
+    "hardwareConcurrency",
+    "cookieEnabled",
+    "appCodeName",
+    "appName",
+    "appVersion",
+    "platform",
+    "product",
+    "userAgent",
+    "language",
+    "languages",
+    "onLine",
+    "webdriver",
+    "getGamepads",
+    "javaEnabled",
+    "sendBeacon",
+    "vibrate",
+    "constructor",
+    "storageBuckets",
+    "clipboard",
+    "credentials",
+    "keyboard",
+    "managed",
+    "mediaDevices",
+    "storage",
+    "serviceWorker",
+    "virtualKeyboard",
+    "wakeLock",
+    "deviceMemory",
+    "userAgentData",
+    "login",
+    "ink",
+    "mediaCapabilities",
+    "hid",
+    "locks",
+    "gpu",
+    "mediaSession",
+    "permissions",
+    "presentation",
+    "usb",
+    "xr",
+    "serial",
+    "windowControlsOverlay",
+    "clearAppBadge",
+    "getBattery",
+    "getUserMedia",
+    "requestMIDIAccess",
+    "requestMediaKeySystemAccess",
+    "setAppBadge",
+    "webkitGetUserMedia",
+    "getInstalledRelatedApps",
+    "registerProtocolHandler",
+    "unregisterProtocolHandler",
+    "constructor",
+    "__defineGetter__",
+    "__defineSetter__",
+    "hasOwnProperty",
+    "__lookupGetter__",
+    "__lookupSetter__",
+    "isPrototypeOf",
+    "propertyIsEnumerable",
+    "toString",
+    "valueOf",
+    "__proto__",
+    "toLocaleString"
+  ],
+  "etsl": 33,
+  "screenDesc": "function get width() { [native code] }",
+  "phantomJS": [
+    false,
+    false,
+    false
+  ],
+  "nightmareJS": false,
+  "selenium": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "webDriver": true,
+  "webDriverValue": true,
+  "errorsGenerated": [
+    "azeaze is not defined",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "Failed to construct 'WebSocket': The URL 'itsgonnafail' is invalid."
+  ],
+  "resOverflow": {
+    "depth": 9643,
+    "errorMessage": "Maximum call stack size exceeded",
+    "errorName": "RangeError",
+    "errorStacklength": 914
+  },
+  "accelerometerUsed": false,
+  "screenMediaQuery": true,
+  "hasChrome": true,
+  "detailChrome": {
+    "webstore": "TypeError: Cannot read properties of undefined (reading 'constructor')",
+    "runtime": "TypeError: Cannot read properties of undefined (reading 'constructor')",
+    "app": "function Object() { [native code] }",
+    "csi": "function Function() { [native code] }",
+    "loadTimes": "function Function() { [native code] }",
+    "connect": "Cannot read properties of undefined (reading 'connect')",
+    "sendMessage": "Cannot read properties of undefined (reading 'sendMessage')"
+  },
+  "permissions": {
+    "state": "prompt",
+    "permission": "default"
+  },
+  "allPermissions": {
+    "ambient-light-sensor": {
+      "error": "TypeError: Failed to execute 'query' on 'Permissions': GenericSensorExtraClasses flag is not enabled."
+    },
+    "bluetooth": {
+      "error": "TypeError: Failed to execute 'query' on 'Permissions': Failed to read the 'name' property from 'PermissionDescriptor': The provided value 'bluetooth' is not a valid enum value of type PermissionName."
+    },
+    "device-info": {
+      "error": "TypeError: Failed to execute 'query' on 'Permissions': Failed to read the 'name' property from 'PermissionDescriptor': The provided value 'device-info' is not a valid enum value of type PermissionName."
+    },
+    "nfc": {
+      "error": "TypeError: Failed to execute 'query' on 'Permissions': Web NFC is not enabled."
+    },
+    "push": {
+      "error": "NotSupportedError: Failed to execute 'query' on 'Permissions': Push Permission without userVisibleOnly:true isn't supported yet."
+    },
+    "speaker-selection": {
+      "error": "TypeError: Failed to execute 'query' on 'Permissions': Failed to read the 'name' property from 'PermissionDescriptor': The provided value 'speaker-selection' is not a valid enum value of type PermissionName."
+    },
+    "accelerometer": {
+      "state": "granted",
+      "permission": "default"
+    },
+    "background-fetch": {
+      "state": "granted",
+      "permission": "default"
+    },
+    "background-sync": {
+      "state": "granted",
+      "permission": "default"
+    },
+    "camera": {
+      "state": "prompt",
+      "permission": "default"
+    },
+    "clipboard-write": {
+      "state": "granted",
+      "permission": "default"
+    },
+    "display-capture": {
+      "state": "prompt",
+      "permission": "default"
+    },
+    "geolocation": {
+      "state": "prompt",
+      "permission": "default"
+    },
+    "gyroscope": {
+      "state": "granted",
+      "permission": "default"
+    },
+    "magnetometer": {
+      "state": "granted",
+      "permission": "default"
+    },
+    "microphone": {
+      "state": "prompt",
+      "permission": "default"
+    },
+    "midi": {
+      "state": "granted",
+      "permission": "default"
+    },
+    "notifications": {
+      "state": "prompt",
+      "permission": "default"
+    },
+    "persistent-storage": {
+      "state": "prompt",
+      "permission": "default"
+    }
+  },
+  "iframeChrome": "object",
+  "debugTool": false,
+  "battery": true,
+  "deviceMemory": 8,
+  "tpCanvas": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0
+  },
+  "sequentum": false,
+  "audioCodecs": {
+    "ogg": "probably",
+    "mp3": "probably",
+    "wav": "probably",
+    "m4a": "maybe",
+    "aac": "probably"
+  },
+  "videoCodecs": {
+    "ogg": "",
+    "h264": "probably",
+    "webm": "probably",
+    "mpeg4v": "",
+    "mpeg4a": "",
+    "theora": ""
+  },
+  "webSocketSupportTimeout": true
+}
